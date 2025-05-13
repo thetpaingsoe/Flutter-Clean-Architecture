@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_bloc.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_event.dart';
 
 import '../../../../core/di/injections.dart';
-import '../../domain/usecases/search_universities_usecase.dart';
+import '../bloc/university_list_state.dart';
 
 /// --------------------------------------------------------------
 /// Page
@@ -11,29 +14,56 @@ class UniversityListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: UniversityListScreen()
-      );
+    return BlocProvider(
+      create: (BuildContext context) => UniversityListBloc(repo: di.get()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter Clean Architecture'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        ),
+        body: UniversityListScreen(),
+      ),
+    );
   }
 }
 
 /// --------------------------------------------------------------
 /// Screen
 /// --------------------------------------------------------------
-class UniversityListScreen extends StatelessWidget {
+class UniversityListScreen extends StatefulWidget {
   const UniversityListScreen({super.key});
 
   @override
+  State<UniversityListScreen> createState() => _UniversityListScreenState();
+}
+
+class _UniversityListScreenState extends State<UniversityListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Dispatch initial event ONCE when the screen loads
+    BlocProvider.of<UniversityListBloc>(
+      context,
+    ).add(UniversityListSearchEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Center(
-          child: TextButton(onPressed: () async {
-            var data = await di<SearchUniversitiesUsercase>().call('','', 0, 10);
-            for(var d in data){
-              // ignore: avoid_print
-              print(d.name);
-            }
-            
-          }, child: Text("Load University Data.")),
-        );
+    return BlocConsumer<UniversityListBloc, UniversityListState>(
+      listener: (context, state) {},
+      builder:
+          (context, state) =>
+              state is UniversityListInitialState
+                  ? ListView.builder(
+                    itemCount: state.universities.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(state.universities[index].name),
+                      );
+                    },
+                  )
+                  : Container(),
+    );
   }
 }
