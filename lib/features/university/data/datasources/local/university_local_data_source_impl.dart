@@ -2,9 +2,9 @@
 
 
 import '../../../domain/entities/university.dart';
-import '../university_remote_data_source.dart';
+import '../university_data_source.dart';
 
-class UniversityLocalDataSourceImpl extends UniversityRemoteDataSource {
+class UniversityLocalDataSourceImpl extends UniversityDataSource {
   @override
   Future<List<University>> search(String keyword, String country, int offset, int limit) async {
     List<University> universities = [];

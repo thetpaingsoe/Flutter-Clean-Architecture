@@ -2,11 +2,11 @@
 
 import '../../domain/entities/university.dart';
 import '../../domain/repositories/university_repository.dart';
-import '../datasources/university_remote_data_source.dart';
+import '../datasources/university_data_source.dart';
 
 class UniversityRepositoryImpl extends UniversityRepository {
 
-  final UniversityRemoteDataSource universityRemoteDataSource;
+  final UniversityDataSource universityRemoteDataSource;
   UniversityRepositoryImpl({required this.universityRemoteDataSource});
 
   @override
