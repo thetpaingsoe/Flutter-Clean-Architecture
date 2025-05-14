@@ -1,9 +1,15 @@
 sealed class UniversityListEvent {}
 
+class UniversityListLoadDataEvent extends UniversityListEvent {  
+  UniversityListLoadDataEvent();
+}
+
+class UniversityListLoadMoreDataEvent extends UniversityListEvent {  
+  UniversityListLoadMoreDataEvent();
+}
+
 class UniversityListSearchEvent extends UniversityListEvent {
   String keyword;
   String country;
-  int? offset;
-  int? limit;
-  UniversityListSearchEvent({required this.keyword, required this.country, this.offset, this.limit}) : super();
+  UniversityListSearchEvent({required this.keyword, required this.country}) : super();
 }

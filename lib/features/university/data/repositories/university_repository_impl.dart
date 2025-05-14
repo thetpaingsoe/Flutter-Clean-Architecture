@@ -11,8 +11,8 @@ class UniversityRepositoryImpl extends UniversityRepository {
   UniversityRepositoryImpl({required this.universityRemoteDataSource});
 
   @override
-  Future<ApiResponse<List<University>>> search(String keyword, String country, int offset, int limit) {
-    return universityRemoteDataSource.search(keyword, country, offset, limit);
+  Future<ApiResponse<List<University>>> search({String? keyword, String? country, int? offset, int? limit}) {
+    return universityRemoteDataSource.search(keyword ?? "", country ?? "", offset, limit);
   }
 
 }

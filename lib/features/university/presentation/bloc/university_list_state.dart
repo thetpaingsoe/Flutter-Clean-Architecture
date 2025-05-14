@@ -22,7 +22,17 @@ class UniversityListSuccessState extends UniversityListState {
   final List<University> universities;
   String? keyword; 
   String? country; 
-  int offset = 0;
-  int limit = 10;
+  int offset;
+  int limit;
   UniversityListSuccessState({required this.universities, this.keyword, this.country, this.offset = 0, this.limit = 10}): super();
+
+  UniversityListSuccessState copyWith({List<University>? universities, String? keyword, String? country, int? offset, int? limit}) {
+    return UniversityListSuccessState(
+      universities: universities ?? this.universities,
+      keyword: keyword ?? this.keyword,
+      country: country ?? this.country,
+      offset: offset ?? this.offset,
+      limit: limit ?? this.limit
+    );
+  }
 }

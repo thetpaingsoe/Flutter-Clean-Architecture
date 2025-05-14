@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_clean_architecture/core/network/dio_logger.dart';
+import 'package:flutter_clean_architecture/core/network/logger/dio_logger.dart';
 
-import 'error_handler.dart';
+import 'exception/error_handler.dart';
 
 class DioClient {
   final Dio _dio;

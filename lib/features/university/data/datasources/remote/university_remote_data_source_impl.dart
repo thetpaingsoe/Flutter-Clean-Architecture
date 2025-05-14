@@ -14,13 +14,16 @@ class UniversityRemoteDataSourceImpl extends UniversityDataSource {
 
   @override
   Future<ApiResponse<List<University>>> search(
-    String keyword,
-    String country,
-    int offset,
-    int limit,
+    String? keyword,
+    String? country,
+    int? offset,
+    int? limit,
   ) async {
     try {
-      final response = await _dio.get( '${super.searchUniversityUrl}?name=$keyword&country=$country&=$offset&limit=$limit');
+      String url = "${super.searchUniversityUrl}?offset=$offset&limit=$limit";
+      url += keyword!.isNotEmpty ? '&name=$keyword': '';
+      url += country!.isNotEmpty ? '&country=$country' : '';
+      final response = await _dio.get(url);
       final data =
           (response.data as List)
               .map((e) => UniversityModel.fromJson(e))

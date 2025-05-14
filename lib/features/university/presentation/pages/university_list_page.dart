@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_bloc.dart';
 import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_event.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/widgets/search_app_bar_widget.dart';
 
 import '../../../../core/di/injections.dart';
 import '../bloc/university_list_state.dart';
@@ -21,6 +22,9 @@ class UniversityListPage extends StatelessWidget {
           title: Text('Flutter Clean Architecture'),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          actions: [
+            SeachAppBarWidget(),
+          ],
         ),
         body: UniversityListScreen(),
       ),
@@ -39,13 +43,14 @@ class UniversityListScreen extends StatefulWidget {
 }
 
 class _UniversityListScreenState extends State<UniversityListScreen> {
+  
   @override
   void initState() {
     super.initState();
     // Dispatch initial event ONCE when the screen loads
     BlocProvider.of<UniversityListBloc>(
       context,
-    ).add(UniversityListSearchEvent(keyword: "", country: "" ));
+    ).add(UniversityListLoadDataEvent());
   }
 
   @override
@@ -56,11 +61,29 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
         if (state is UniversityListLoadingState) {
           return Center(child: CircularProgressIndicator());
         } else if (state is UniversityListSuccessState) {
-          return ListView.builder(
-            itemCount: state.universities.length,
-            itemBuilder: (context, index) {
-              return ListTile(title: Text('${state.universities[index].name} ( ${state.universities[index].country} ) '));
+          return NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (notification is ScrollEndNotification) {
+                final metrics = notification.metrics;
+                if (metrics.atEdge && metrics.pixels != 0) {
+                  // Hit the end of the list
+                  BlocProvider.of<UniversityListBloc>(
+                    context,
+                  ).add(UniversityListLoadMoreDataEvent());
+                }
+              }
+              return false;
             },
+            child: ListView.builder(
+              itemCount: state.universities.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    '${state.universities[index].name} ( ${state.universities[index].country} ) ',
+                  ),
+                );
+              },
+            ),
           );
         } else if (state is UniversityListErrorState) {
           return Center(
