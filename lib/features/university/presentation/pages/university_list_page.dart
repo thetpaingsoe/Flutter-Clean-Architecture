@@ -45,25 +45,34 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
     // Dispatch initial event ONCE when the screen loads
     BlocProvider.of<UniversityListBloc>(
       context,
-    ).add(UniversityListSearchEvent());
+    ).add(UniversityListSearchEvent(keyword: "", country: "" ));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UniversityListBloc, UniversityListState>(
       listener: (context, state) {},
-      builder:
-          (context, state) =>
-              state is UniversityListInitialState
-                  ? ListView.builder(
-                    itemCount: state.universities.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(state.universities[index].name),
-                      );
-                    },
-                  )
-                  : Container(),
+      builder: (context, state) {
+        if (state is UniversityListLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is UniversityListSuccessState) {
+          return ListView.builder(
+            itemCount: state.universities.length,
+            itemBuilder: (context, index) {
+              return ListTile(title: Text(state.universities[index].name));
+            },
+          );
+        } else if (state is UniversityListErrorState) {
+          return Center(
+            child: Text(
+              state.errorMessage,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }

@@ -6,11 +6,18 @@ import '../../domain/repositories/university_repository.dart';
 
 class UniversityListBloc extends Bloc<UniversityListEvent, UniversityListState> {
 
-  UniversityListBloc({required UniversityRepository repo})  :super(UniversityListInitialState(universities: [])) {
+  UniversityListBloc({required UniversityRepository repo})  :super(UniversityListInitialState()) {
     on<UniversityListSearchEvent>((event, emit) async{
-      final universities = await repo.search('','',10,0);
-      emit(UniversityListInitialState(universities: universities));
+      emit(UniversityListLoadingState());
+      await Future.delayed(Duration(seconds: 2));
+      final universities = await repo.search(event.keyword, event.country,10,0);
+      if(universities.isNotEmpty) {
+        emit(UniversityListSuccessState(universities: universities));
+      }else {
+        emit(UniversityListErrorState(errorMessage: "No Data"));
+      }
     });
+    
   }
 
 

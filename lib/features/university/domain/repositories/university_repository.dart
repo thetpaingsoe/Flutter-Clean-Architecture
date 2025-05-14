@@ -1,6 +1,3 @@
-
-
-
 import '../entities/university.dart';
 
 abstract class UniversityRepository {
