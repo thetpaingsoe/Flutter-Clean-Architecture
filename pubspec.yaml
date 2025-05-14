@@ -39,6 +39,7 @@ dependencies:
   # Dependencies Injection
   get_it: ^8.0.3
   flutter_bloc: ^9.1.1
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:

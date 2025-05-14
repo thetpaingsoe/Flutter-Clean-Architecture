@@ -59,7 +59,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
           return ListView.builder(
             itemCount: state.universities.length,
             itemBuilder: (context, index) {
-              return ListTile(title: Text(state.universities[index].name));
+              return ListTile(title: Text('${state.universities[index].name} ( ${state.universities[index].country} ) '));
             },
           );
         } else if (state is UniversityListErrorState) {
