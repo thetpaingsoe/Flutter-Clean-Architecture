@@ -10,9 +10,9 @@ class UniversityListBloc extends Bloc<UniversityListEvent, UniversityListState> 
     on<UniversityListSearchEvent>((event, emit) async{
       emit(UniversityListLoadingState());
       await Future.delayed(Duration(seconds: 2));
-      final universities = await repo.search(event.keyword, event.country,0,50);
-      if(universities.isNotEmpty) {
-        emit(UniversityListSuccessState(universities: universities));
+      final response = await repo.search(event.keyword, event.country,0,50);
+      if(response.success) {
+        emit(UniversityListSuccessState(universities: response.data!));
       }else {
         emit(UniversityListErrorState(errorMessage: "No Data"));
       }

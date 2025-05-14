@@ -9,7 +9,7 @@ import '../data/repositories/university_repository_impl.dart';
 import '../domain/usecases/search_universities_usecase.dart';
 
 initUniversityInjection() {
-  di.registerSingleton<UniversityDataSource>(UniversityRemoteDataSourceImpl( dio ));
+  di.registerSingleton<UniversityDataSource>(UniversityRemoteDataSourceImpl(dioClient: di.get() ));
   di.registerSingleton<UniversityRepository>(UniversityRepositoryImpl(universityRemoteDataSource: di.get()));
   di.registerSingleton<SearchUniversitiesUsercase>(SearchUniversitiesUsercase(universityRepository: di.get()));  
 }

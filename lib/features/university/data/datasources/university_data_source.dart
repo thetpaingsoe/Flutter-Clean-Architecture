@@ -1,8 +1,12 @@
 
 
 
+import '../../../../core/network/api_response.dart';
 import '../../domain/entities/university.dart';
 
 abstract class UniversityDataSource {
-  Future<List<University>> search(String keyword, String country, int offset, int limit);
+
+  String searchUniversityUrl = "/search";
+  Future<ApiResponse<List<University>>> search(String keyword, String country, int offset, int limit);
+  
 }
