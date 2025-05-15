@@ -1,26 +1,61 @@
 import 'package:dio/dio.dart';
 
 class NetworkException extends DioException {
-  NetworkException(String message)
-      : super(requestOptions: RequestOptions(path: ''), message: message);
+  NetworkException(String message, int statusCode)
+    : super(
+        requestOptions: RequestOptions(path: ''),
+        message: message,
+        response: Response(
+          statusCode: statusCode,
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
 }
 
 class ServerException extends DioException {
-  ServerException(String message)
-      : super(requestOptions: RequestOptions(path: ''), message: message);
+  ServerException(String message, int statusCode)
+    : super(
+        requestOptions: RequestOptions(path: ''),
+        message: message,
+        response: Response(
+          statusCode: statusCode,
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
 }
 
 class ClientException extends DioException {
-  ClientException(String message)
-      : super(requestOptions: RequestOptions(path: ''), message: message);
+  ClientException(String message, int statusCode)
+    : super(
+        requestOptions: RequestOptions(path: ''),
+        message: message,
+        response: Response(
+          statusCode: statusCode,
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
 }
 
 class CancelException extends DioException {
-  CancelException(String message)
-      : super(requestOptions: RequestOptions(path: ''), message: message);
+  CancelException(String message, int statusCode)
+    : super(
+        requestOptions: RequestOptions(path: ''),
+        message: message,
+        response: Response(
+          statusCode: statusCode,
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
 }
 
 class UnknownException extends DioException {
-  UnknownException(String message)
-      : super(requestOptions: RequestOptions(path: ''), message: message);
+  UnknownException(String message, int statusCode)
+    : super(
+        requestOptions: RequestOptions(path: ''),
+        message: message,
+        response: Response(
+          statusCode: statusCode,
+          requestOptions: RequestOptions(path: ''),
+        ),
+      );
 }

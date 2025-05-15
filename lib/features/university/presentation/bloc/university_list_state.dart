@@ -15,7 +15,8 @@ class UniversityListLoadingState extends UniversityListState{
 
 class UniversityListErrorState extends UniversityListState {
   final String errorMessage;
-  const UniversityListErrorState({required this.errorMessage}) : super();
+  final int errorCode;
+  const UniversityListErrorState({required this.errorCode, required this.errorMessage}) : super();
 }
 
 class UniversityListSuccessState extends UniversityListState {
