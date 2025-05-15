@@ -1,39 +1,54 @@
-
+import 'package:equatable/equatable.dart';
+import 'package:flutter_clean_architecture/core/config/constants.dart';
 import 'package:flutter_clean_architecture/features/university/domain/entities/university.dart';
 
-sealed class UniversityListState {  
-  const UniversityListState();
-}
+class UniversityListState extends Equatable {
+  const UniversityListState({
+    this.status = Status.initial,
+    this.universities = const <University>[],
+    this.keyword,
+    this.country,
+    this.offset = 0,
+    this.limit = 0,
+    this.isActiveSearch = false,
+    this.errorCode = 0,
+    this.errorMessage = "",
+  });
 
-class UniversityListInitialState extends UniversityListState{
-  const UniversityListInitialState(): super();
-}
-
-class UniversityListLoadingState extends UniversityListState{
-  const UniversityListLoadingState() : super();
-}
-
-class UniversityListErrorState extends UniversityListState {
+  final Status status;
+  final List<University> universities;
+  final String? keyword;
+  final String? country;
+  final int offset;
+  final int limit;
+  final bool isActiveSearch;
   final String errorMessage;
   final int errorCode;
-  const UniversityListErrorState({required this.errorCode, required this.errorMessage}) : super();
-}
+  
+  @override
+  List<Object?> get props => [status, universities, isActiveSearch, errorMessage, offset ];
 
-class UniversityListSuccessState extends UniversityListState {
-  final List<University> universities;
-  String? keyword; 
-  String? country; 
-  int offset;
-  int limit;
-  UniversityListSuccessState({required this.universities, this.keyword, this.country, this.offset = 0, this.limit = 10}): super();
-
-  UniversityListSuccessState copyWith({List<University>? universities, String? keyword, String? country, int? offset, int? limit}) {
-    return UniversityListSuccessState(
+  UniversityListState copyWith({
+    status,
+    universities,
+    keyword,
+    country,
+    offset,
+    limit,
+    isActiveSearch,
+    errorCode,
+    errorMessage,
+  }){
+    return UniversityListState(
+      status : status ?? this.status,
       universities: universities ?? this.universities,
       keyword: keyword ?? this.keyword,
       country: country ?? this.country,
       offset: offset ?? this.offset,
-      limit: limit ?? this.limit
+      limit: limit ?? this.limit,
+      isActiveSearch: isActiveSearch ?? this.isActiveSearch,
+      errorCode: errorCode ?? this.errorCode,
+      errorMessage: errorMessage ?? this.errorMessage
     );
   }
 }

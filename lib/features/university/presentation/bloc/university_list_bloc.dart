@@ -1,65 +1,116 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_clean_architecture/features/university/domain/usecases/search_universities_usecase.dart';
 import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_event.dart';
 import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_state.dart';
-
 import '../../../../core/config/config.dart';
-import '../../domain/repositories/university_repository.dart';
+import '../../../../core/config/constants.dart';
 
 class UniversityListBloc
     extends Bloc<UniversityListEvent, UniversityListState> {
-  final UniversityRepository repo;
-  UniversityListBloc({required this.repo})
-    : super(UniversityListInitialState()) {
+  final SearchUniversitiesUsercase searchUniversitiesUsercase;
+  UniversityListBloc({required this.searchUniversitiesUsercase})
+    : super(UniversityListState()) {
     on<UniversityListLoadDataEvent>(_loadDataList);
     on<UniversityListLoadMoreDataEvent>(_loadMoreDataList);
     on<UniversityListSearchEvent>(_searchDataList);
+    on<ResetDataEvent>(_resetData);
+
+    // Handling Appbar Keyword Search
+    on<ActiveToggleSearchOnAppBarEvent>(_activateActiveToggleForSearch);
+
+
   }
 
-  _loadDataList(event, emit) async {
-    emit(UniversityListLoadingState());
+  _resetData(event, emit) async{
+    emit(UniversityListState(status: Status.initial));
     final offset = Config.offset;
     final limit = Config.limit;
-    final response = await repo.search(limit: limit, offset: offset);
+    final response = await searchUniversitiesUsercase.call(
+      keyword: "",
+      country: "",
+      limit: limit,
+      offset: offset,
+    );
     if (response.success) {
       emit(
-        UniversityListSuccessState(
-          universities: response.data ?? [],          
+        state.copyWith(
+          status: Status.loaded,
+          universities: response.data ?? [],
           limit: limit,
           offset: offset,
         ),
       );
     } else {
-      emit(UniversityListErrorState(errorCode: response.statusCode!, errorMessage : response.message!));
+      emit(
+        state.copyWith(
+          status: Status.error,
+          errorCode: response.statusCode!,
+          errorMessage: response.message!,
+        ),
+      );
+    }
+  }
+
+  _activateActiveToggleForSearch(event, emit) async {
+    emit(state.copyWith(isActiveSearch: event.isActive));
+  }
+
+  _loadDataList(event, emit) async {
+    emit(UniversityListState(status: Status.initial));
+    final offset = Config.offset;
+    final limit = Config.limit;
+    final response = await searchUniversitiesUsercase.call(
+      keyword: "",
+      country: "",
+      limit: limit,
+      offset: offset,
+    );
+    if (response.success) {
+      emit(
+        state.copyWith(
+          status: Status.loaded,
+          universities: response.data ?? [],
+          limit: limit,
+          offset: offset,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          status: Status.error,
+          errorCode: response.statusCode!,
+          errorMessage: response.message!,
+        ),
+      );
     }
   }
 
   _loadMoreDataList(event, emit) async {
-    final currentState = state;
-    if (currentState is UniversityListSuccessState) {
-      final offset = currentState.offset + Config.limit;
-      final response = await repo.search(
-        keyword: currentState.keyword,
-        country: currentState.country,
-        limit: currentState.limit,
-        offset: offset,
+    final offset = state.offset + Config.limit;
+    final limit = Config.limit;
+    final response = await searchUniversitiesUsercase.call(
+      keyword: "",
+      country: "",
+      limit: limit,
+      offset: offset,
+    );
+    if (response.success) {
+      state.universities.addAll(response.data!);
+      emit(
+        state.copyWith(
+          universities: state.universities,
+          status: Status.loaded,
+          limit: limit,
+          offset: offset,
+        ),
       );
-      if (response.success) {
-        currentState.universities.addAll(response.data!);
-        emit(
-          currentState.copyWith(
-            universities: currentState.universities,
-            offset: offset,
-          ),
-        );
-      }
     }
   }
 
   _searchDataList(event, emit) async {
-    emit(UniversityListLoadingState());
     final offset = Config.offset;
     final limit = Config.limit;
-    final response = await repo.search(
+    final response = await searchUniversitiesUsercase.call(
       keyword: event.keyword,
       country: event.country,
       limit: limit,
@@ -67,17 +118,25 @@ class UniversityListBloc
     );
     if (response.success) {
       emit(
-        UniversityListSuccessState(
-          universities: response.data ?? [],
+        state.copyWith(
           keyword: event.keyword,
           country: event.country,
+          status: Status.loaded,
+          universities: response.data ?? [],
           limit: limit,
           offset: offset,
         ),
       );
     } else {
-      emit(UniversityListErrorState(errorCode: response.statusCode!, errorMessage : response.message!));
+      emit(
+        state.copyWith(
+          keyword: "",
+          country: "",
+          status: Status.error,
+          errorCode: response.statusCode!,
+          errorMessage: response.message!,
+        ),
+      );
     }
-
   }
 }

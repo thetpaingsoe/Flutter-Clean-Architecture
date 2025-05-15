@@ -8,17 +8,17 @@ class SearchUniversitiesUsercase {
 
   SearchUniversitiesUsercase({required this.universityRepository});
 
-  Future<ApiResponse<List<University>>> call(
-    String keyword,
-    String country,
-    int offset,
-    int limit,
-  ) {
+  Future<ApiResponse<List<University>>> call({
+    required String keyword,
+    required String country,
+    required int limit,
+    required int offset,
+  }) {
     return universityRepository.search(
       keyword: keyword,
       country: country,
-      offset: offset,
       limit: limit,
+      offset: offset
     );
   }
 }
