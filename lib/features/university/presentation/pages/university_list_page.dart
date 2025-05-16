@@ -136,9 +136,10 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
               }
             },
           ),
-          BlocBuilder<UniversityListBloc, UniversityListState>(
+          BlocSelector<UniversityListBloc, UniversityListState, Status>(
+            selector: (state) => state.status,
             builder: (context, state) {
-              if (state.status == Status.loading) {
+              if (state == Status.loading) {
                 return const Align(
                   alignment: Alignment.bottomCenter,
                   child: LinearProgressIndicator(),
