@@ -18,7 +18,7 @@ class SearchUniversitiesUsercase {
       keyword: keyword,
       country: country,
       limit: limit,
-      offset: offset
+      offset: offset,
     );
   }
 }
