@@ -55,7 +55,6 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
     ).add(UniversityListLoadDataEvent());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -85,54 +84,71 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                   ),
             );
       },
-      child: BlocBuilder<UniversityListBloc, UniversityListState>(
-        builder: (context, state) {
-          if (state.status == Status.loading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state.status == Status.loaded) {
-            return NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                if (notification is ScrollEndNotification) {
-                  final metrics = notification.metrics;
-                  if (metrics.atEdge && metrics.pixels != 0) {
-                    // Hit the end of the list
-                    BlocProvider.of<UniversityListBloc>(
-                      context,
-                    ).add(UniversityListLoadMoreDataEvent());
-                  }
-                }
-                return false;
-              },
-              child: RefreshIndicator(
-                child: ListView.builder(
-                  itemCount: state.universities.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                        '${state.universities[index].name} ( ${state.universities[index].country} ) ',
-                      ),
-                    );
+      child: Stack(
+        children: [
+          BlocBuilder<UniversityListBloc, UniversityListState>(
+            builder: (context, state) {
+              if (state.status == Status.loaded 
+                || state.universities.isNotEmpty) {
+                return NotificationListener<ScrollNotification>(
+                  onNotification: (notification) {
+                    if (notification is ScrollEndNotification) {
+                      final metrics = notification.metrics;
+                      if (metrics.atEdge && metrics.pixels != 0) {
+                        // Hit the end of the list
+                        BlocProvider.of<UniversityListBloc>(
+                          context,
+                        ).add(UniversityListLoadMoreDataEvent());
+                      }
+                    }
+                    return false;
                   },
-                ),
-                onRefresh: () {
-                  BlocProvider.of<UniversityListBloc>(
-                    context,
-                  ).add(UniversityListLoadDataEvent());
-                  return Future.delayed(const Duration(seconds: 1));
-                },
-              ),
-            );
-          } else if (state.status == Status.error) {
-            return Center(
-              child: Text(
-                state.errorMessage,
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
-            );
-          } else {
-            return const SizedBox();
-          }
-        },
+                  child: RefreshIndicator(
+                    child: ListView.builder(
+                      itemCount: state.universities.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(
+                            '${state.universities[index].name} ( ${state.universities[index].country} ) ',
+                          ),
+                        );
+                      },
+                    ),
+                    onRefresh: () {
+                      BlocProvider.of<UniversityListBloc>(
+                        context,
+                      ).add(UniversityListLoadDataEvent());
+                      return Future.delayed(const Duration(seconds: 1));
+                    },
+                  ),
+                );
+              } else if (state.status == Status.error) {
+                return Center(
+                  child: Text(
+                    state.errorMessage,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+          BlocBuilder<UniversityListBloc, UniversityListState>(
+            builder: (context, state) {
+              if (state.status == Status.loading) {
+                return const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: LinearProgressIndicator(),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+        ],
       ),
     );
   }

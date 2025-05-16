@@ -17,11 +17,9 @@ class UniversityListBloc
 
     // Handling Appbar Keyword Search
     on<ActiveToggleSearchOnAppBarEvent>(_activateActiveToggleForSearch);
-
-
   }
 
-  _resetData(event, emit) async{
+  _resetData(event, emit) async {
     emit(UniversityListState(status: Status.initial));
     final offset = Config.offset;
     final limit = Config.limit;
@@ -86,11 +84,13 @@ class UniversityListBloc
   }
 
   _loadMoreDataList(event, emit) async {
+    emit(state.copyWith(status: Status.loading));
+
     final offset = state.offset + Config.limit;
     final limit = Config.limit;
     final response = await searchUniversitiesUsercase.call(
-      keyword: "",
-      country: "",
+      keyword: state.keyword ?? "",
+      country: state.country ?? "",
       limit: limit,
       offset: offset,
     );
