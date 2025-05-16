@@ -5,6 +5,6 @@ class Config {
   static bool isDebugMode = true;
 
   // Offset & Limit Constants
-  static int limit = 30;
-  static int offset = 0;
+  static const int limit = 30;
+  static const int offset = 0;
 }

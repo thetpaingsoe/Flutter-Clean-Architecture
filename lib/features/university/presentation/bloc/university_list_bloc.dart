@@ -21,21 +21,19 @@ class UniversityListBloc
 
   _resetData(event, emit) async {
     emit(UniversityListState(status: Status.initial));
-    final offset = Config.offset;
-    final limit = Config.limit;
-    final response = await searchUniversitiesUsercase.call(
-      keyword: "",
-      country: "",
-      limit: limit,
-      offset: offset,
+    
+    // Prepare Params
+    final params = state.params.copyWith(
+      offset: Config.offset,
+      limit: Config.limit,
     );
+    final response = await searchUniversitiesUsercase.call(params: params);
     if (response.success) {
       emit(
         state.copyWith(
           status: Status.loaded,
           universities: response.data ?? [],
-          limit: limit,
-          offset: offset,
+          params: params,          
         ),
       );
     } else {
@@ -44,6 +42,7 @@ class UniversityListBloc
           status: Status.error,
           errorCode: response.statusCode!,
           errorMessage: response.message!,
+          params: params,
         ),
       );
     }
@@ -55,21 +54,22 @@ class UniversityListBloc
 
   _loadDataList(event, emit) async {
     emit(UniversityListState(status: Status.initial));
-    final offset = Config.offset;
-    final limit = Config.limit;
+    
+    // Prepare Params
+    final params = state.params.copyWith(
+      offset: Config.offset,
+      limit: Config.limit,
+    );
+
     final response = await searchUniversitiesUsercase.call(
-      keyword: "",
-      country: "",
-      limit: limit,
-      offset: offset,
+      params: params,
     );
     if (response.success) {
       emit(
         state.copyWith(
           status: Status.loaded,
           universities: response.data ?? [],
-          limit: limit,
-          offset: offset,
+          params: params,
         ),
       );
     } else {
@@ -78,6 +78,7 @@ class UniversityListBloc
           status: Status.error,
           errorCode: response.statusCode!,
           errorMessage: response.message!,
+          params: params,
         ),
       );
     }
@@ -86,13 +87,12 @@ class UniversityListBloc
   _loadMoreDataList(event, emit) async {
     emit(state.copyWith(status: Status.loading));
 
-    final offset = state.offset + Config.limit;
-    final limit = Config.limit;
+    // Prepare Params
+    final params = state.params.copyWith(
+      offset: state.params.offset + Config.limit,
+    );
     final response = await searchUniversitiesUsercase.call(
-      keyword: state.keyword ?? "",
-      country: state.country ?? "",
-      limit: limit,
-      offset: offset,
+      params: params,      
     );
     if (response.success) {
       state.universities.addAll(response.data!);
@@ -100,38 +100,36 @@ class UniversityListBloc
         state.copyWith(
           universities: state.universities,
           status: Status.loaded,
-          limit: limit,
-          offset: offset,
+          params: params,
         ),
       );
     }
   }
 
   _searchDataList(event, emit) async {
-    final offset = Config.offset;
-    final limit = Config.limit;
-    final response = await searchUniversitiesUsercase.call(
+    
+    // Prepare Params
+    final params = state.params.copyWith(
       keyword: event.keyword,
       country: event.country,
-      limit: limit,
-      offset: offset,
+      limit: Config.limit,
+      offset: Config.offset,
+    );
+    final response = await searchUniversitiesUsercase.call(
+      params: params,
     );
     if (response.success) {
       emit(
         state.copyWith(
-          keyword: event.keyword,
-          country: event.country,
           status: Status.loaded,
           universities: response.data ?? [],
-          limit: limit,
-          offset: offset,
+          params: params,          
         ),
       );
     } else {
       emit(
         state.copyWith(
-          keyword: "",
-          country: "",
+          params: params,
           status: Status.error,
           errorCode: response.statusCode!,
           errorMessage: response.message!,
