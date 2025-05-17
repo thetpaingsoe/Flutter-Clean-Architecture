@@ -20,8 +20,10 @@ class UniversityListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create:
-          (BuildContext context) =>
-              UniversityListBloc(searchUniversitiesUsercase: di.get()),
+          (BuildContext context) => UniversityListBloc(
+            searchUniversitiesUsercase: di.get(),
+            getAllCountryUsecase: di.get(),
+          ),
       child: Scaffold(
         appBar: AppBar(
           title: AppBarTitleWidget(title: "Flutter Clean Architecture"),
@@ -88,39 +90,110 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
         children: [
           BlocBuilder<UniversityListBloc, UniversityListState>(
             builder: (context, state) {
-              if (state.status == Status.loaded 
-                || state.universities.isNotEmpty) {
-                return NotificationListener<ScrollNotification>(
-                  onNotification: (notification) {
-                    if (notification is ScrollEndNotification) {
-                      final metrics = notification.metrics;
-                      if (metrics.atEdge && metrics.pixels != 0) {
-                        // Hit the end of the list
-                        BlocProvider.of<UniversityListBloc>(
-                          context,
-                        ).add(UniversityListLoadMoreDataEvent());
-                      }
-                    }
-                    return false;
-                  },
-                  child: RefreshIndicator(
-                    child: ListView.builder(
-                      itemCount: state.universities.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            '${state.universities[index].name} ( ${state.universities[index].country} ) ',
-                          ),
-                        );
-                      },
+              if (state.status == Status.loaded ||
+                  state.universities.isNotEmpty) {
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: 58,
+                      child: ListView.builder(
+                        itemCount: state.countries.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              BlocProvider.of<UniversityListBloc>(context).add(
+                                UniversityListSearchEvent(
+                                  keyword: "",
+                                  country:
+                                      state.countries[index].name == "All"
+                                          ? ""
+                                          : state.countries[index].name,
+                                ),
+                              );
+                            },
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  bottom: 15,
+                                  top: 15,
+                                ),
+                                padding: EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  top: 4,
+                                  bottom: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color:
+                                      ( state.params.country ==
+                                                  state.countries[index].name)  ||
+                                              (state.params.country == "" &&
+                                                  state.countries[index].name ==
+                                                      "All")
+                                          ? const Color.fromARGB(
+                                            189,
+                                            121,
+                                            15,
+                                            167,
+                                          )
+                                          : const Color.fromARGB(
+                                            190,
+                                            63,
+                                            5,
+                                            88,
+                                          ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  state.countries[index].name,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        scrollDirection: Axis.horizontal,
+                      ),
                     ),
-                    onRefresh: () {
-                      BlocProvider.of<UniversityListBloc>(
-                        context,
-                      ).add(UniversityListLoadDataEvent());
-                      return Future.delayed(const Duration(seconds: 1));
-                    },
-                  ),
+                    Expanded(
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: (notification) {
+                          if (notification is ScrollEndNotification) {
+                            final metrics = notification.metrics;
+                            if (metrics.atEdge && metrics.pixels != 0) {
+                              // Hit the end of the list
+                              BlocProvider.of<UniversityListBloc>(
+                                context,
+                              ).add(UniversityListLoadMoreDataEvent());
+                            }
+                          }
+                          return false;
+                        },
+                        child: RefreshIndicator(
+                          child: ListView.builder(
+                            itemCount: state.universities.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(
+                                  '${state.universities[index].name} ( ${state.universities[index].country} ) ',
+                                ),
+                              );
+                            },
+                          ),
+                          onRefresh: () {
+                            BlocProvider.of<UniversityListBloc>(
+                              context,
+                            ).add(UniversityListLoadDataEvent());
+                            return Future.delayed(const Duration(seconds: 1));
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               } else if (state.status == Status.error) {
                 return Center(
