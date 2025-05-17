@@ -95,7 +95,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                 return Column(
                   children: [
                     SizedBox(
-                      height: 58,
+                      height: 60,
                       child: ListView.builder(
                         itemCount: state.countries.length,
                         itemBuilder: (context, index) {
@@ -105,9 +105,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                                 UniversityListSearchEvent(
                                   keyword: "",
                                   country:
-                                      state.countries[index].name == "All"
-                                          ? ""
-                                          : state.countries[index].name,
+                                      state.countries[index].name,
                                 ),
                               );
                             },
@@ -116,8 +114,8 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
 
                               child: Container(
                                 margin: EdgeInsets.only(
-                                  left: 20,
-                                  right: 20,
+                                  left: 10,
+                                  right: 10,
                                   bottom: 15,
                                   top: 15,
                                 ),

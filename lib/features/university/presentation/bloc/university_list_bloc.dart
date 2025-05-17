@@ -24,12 +24,20 @@ class UniversityListBloc
   }
 
   _resetData(event, emit) async {
-    emit(UniversityListState(status: Status.initial));
 
+    emit(state.copyWith(
+      status: Status.loading,  
+      isActiveSearch: false,
+      params: state.params.copyWith(
+        keyword: "")    
+    ),);
+
+    final countries = await getAllCountryUsecase.call();
     // Prepare Params
     final params = state.params.copyWith(
       offset: Config.offset,
       limit: Config.limit,
+
     );
     final response = await searchUniversitiesUsercase.call(params: params);
     if (response.success) {
@@ -38,6 +46,7 @@ class UniversityListBloc
           status: Status.loaded,
           universities: response.data ?? [],
           params: params,
+          countries: countries,
         ),
       );
     } else {
@@ -47,6 +56,7 @@ class UniversityListBloc
           errorCode: response.statusCode!,
           errorMessage: response.message!,
           params: params,
+          countries: countries,
         ),
       );
     }
@@ -60,9 +70,7 @@ class UniversityListBloc
     emit(UniversityListState(status: Status.initial));
 
     final countries = await getAllCountryUsecase.call();
-      
-    
-    
+
     // Prepare Params
     final params = state.params.copyWith(
       offset: Config.offset,
@@ -86,6 +94,7 @@ class UniversityListBloc
           errorCode: response.statusCode!,
           errorMessage: response.message!,
           params: params,
+          countries: countries,
         ),
       );
     }
@@ -115,10 +124,12 @@ class UniversityListBloc
     // Prepare Params
     final params = state.params.copyWith(
       keyword: event.keyword,
-      country: event.country,
+      country: event.country == "" ? null : event.country == "All" ? "" : event.country,
       limit: Config.limit,
       offset: Config.offset,
     );
+    emit(state.copyWith(params: params, status: Status.loading));
+
     final response = await searchUniversitiesUsercase.call(params: params);
     if (response.success) {
       emit(
