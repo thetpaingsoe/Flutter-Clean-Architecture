@@ -13,32 +13,32 @@ This demo solves those problems by showing:
 
 **Key Lessons You’ll Learn**  
 
-✅ **True Layer Separation**  
+🎯 **True Layer Separation**  
 - Domain: Pure business logic (no Flutter dependencies!)  
 - Data: Flexible data sources (API + local DB)  
 - Presentation: UI that’s decoupled from logic  
 
-✅ **Multi-DataSource Reality**  
+🎯 **Multi-DataSource Reality**  
 - Seamlessly switch between REST API ↔ Local Database (e.g., Hive/SQLite)  
 - Offline-first support made easy  
 
-✅ **State-Management Agnostic Design**  
+🎯 **State-Management Agnostic Design**  
 - The same business logic works with BLoC, Riverpod, or GetX  
 - Proof that Clean Architecture outlasts state-management trends  
 
-✅ **Testing Confidence**  
+🎯 **Testing Confidence**  
 - Unit Tests: Domain + Data layers  
 - Widget Tests: UI in isolation  
 - Mocking Strategies: Swap dependencies effortlessly  
 
-✅ **Real-World Adaptability**  
+🎯 **Real-World Adaptability**  
 - Add/remove features without refactoring the entire app  
 - Replace libraries (e.g., Dio → HTTP) with minimal changes  
 
 **Who Is This For?**  
-- 👉 Developers tired of "just making it work" and want to build apps that scale  
-- 👉 Teams enforcing consistent architecture across projects  
-- 👉 Anyone preparing for complex Flutter apps (production-grade)  
+- Developers tired of "just making it work" and want to build apps that scale  
+- Teams enforcing consistent architecture across projects  
+- Anyone preparing for complex Flutter apps (production-grade)  
 
 ## 📑 SDK Requirements
 - Flutter SDK 3.29.2
