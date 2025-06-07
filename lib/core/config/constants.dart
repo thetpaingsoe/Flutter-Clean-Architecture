@@ -6,6 +6,6 @@ enum Status {
 }
 
 enum DataSource {
-  server,
+  remote,
   local
 }

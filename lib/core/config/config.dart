@@ -15,6 +15,6 @@ class Config {
   // Data Source Config : Server / Local
   // This is control that is using to switch between server and local datasource.
   // But for your real case, you need to implment the control that meet your requirement.
-  static const DataSource dataSource = DataSource.local;
+  static const DataSource dataSource = DataSource.remote;
 
 }

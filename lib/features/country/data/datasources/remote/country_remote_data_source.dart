@@ -4,4 +4,4 @@ import 'package:flutter_clean_architecture/features/country/data/datasources/loc
 // Since currently there is api source for the country list
 // It just use the same with local data source.
 // @todo integrate to real api data socure fetching after api is done.
-class CountryServerDataSourceImpl extends CountryLocalDataSourceImpl {}
+class CountryRemoteDataSourceImpl extends CountryLocalDataSourceImpl {}
