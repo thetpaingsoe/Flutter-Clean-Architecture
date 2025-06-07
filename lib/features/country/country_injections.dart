@@ -1,4 +1,3 @@
-
 import 'package:flutter_clean_architecture/core/config/config.dart';
 import 'package:flutter_clean_architecture/core/config/constants.dart';
 import 'package:flutter_clean_architecture/features/country/data/datasources/local/country_local_data_source.dart';
@@ -11,15 +10,18 @@ import 'domain/repositories/country_repository.dart';
 import 'domain/usecases/get_all_country_usecase.dart';
 
 initCountryInjection() {
-
   // Init DataSouce Based on the DataScoure Config
-  if(Config.dataSource == DataSource.remote) {
+  if (Config.dataSource == DataSource.remote) {
     di.registerSingleton<CountryDataSource>(CountryRemoteDataSourceImpl());
-  }else {
+  } else {
     di.registerSingleton<CountryDataSource>(CountryLocalDataSourceImpl());
   }
-  
+
   // Init Repo and UseCases
-  di.registerSingleton<CountryRepository>(CountryRepositoryImpl(countryDataSource: di.get()));
-  di.registerSingleton<GetAllCountryUsecase>(GetAllCountryUsecase(countryRepository: di.get()));
+  di.registerSingleton<CountryRepository>(
+    CountryRepositoryImpl(countryDataSource: di.get()),
+  );
+  di.registerSingleton<GetAllCountryUsecase>(
+    GetAllCountryUsecase(countryRepository: di.get()),
+  );
 }

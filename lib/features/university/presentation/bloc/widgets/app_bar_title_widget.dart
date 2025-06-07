@@ -19,9 +19,7 @@ class AppBarTitleWidget extends StatelessWidget {
             controller: controller,
             decoration: InputDecoration(
               hintText: 'Enter Search Keyword',
-              hintStyle: TextStyle(
-                color: Theme.of(context).highlightColor,
-              ),
+              hintStyle: TextStyle(color: Theme.of(context).highlightColor),
             ),
             textInputAction: TextInputAction.search,
             style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),

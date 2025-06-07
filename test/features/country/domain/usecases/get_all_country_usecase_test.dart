@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_clean_architecture/features/country/domain/entities/country.dart';
 import 'package:flutter_clean_architecture/features/country/domain/usecases/get_all_country_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,16 +15,16 @@ void main() {
 
   setUp(() {
     countryRepository = MockCountryRepository();
-    getAllCountryUsecase = GetAllCountryUsecase(countryRepository: countryRepository);
+    getAllCountryUsecase = GetAllCountryUsecase(
+      countryRepository: countryRepository,
+    );
   });
 
   test("when usecase is called, it should return the list<country>", () async {
     final countries = [Country(name: 'USA')];
-    when( countryRepository.getAll()).thenAnswer((_) async => countries);
+    when(countryRepository.getAll()).thenAnswer((_) async => countries);
 
     final result = await getAllCountryUsecase.call();
     expect(result, countries);
   });
-
-
 }

@@ -12,6 +12,6 @@ class University {
     required this.country,
     required this.countryCode,
     required this.webPages,
-    required this.domains
+    required this.domains,
   });
 }

@@ -104,8 +104,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                               BlocProvider.of<UniversityListBloc>(context).add(
                                 UniversityListSearchEvent(
                                   keyword: "",
-                                  country:
-                                      state.countries[index].name,
+                                  country: state.countries[index].name,
                                 ),
                               );
                             },
@@ -127,8 +126,10 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                                 ),
                                 decoration: BoxDecoration(
                                   color:
-                                      ( state.params.country ==
-                                                  state.countries[index].name)  ||
+                                      (state.params.country ==
+                                                  state
+                                                      .countries[index]
+                                                      .name) ||
                                               (state.params.country == "" &&
                                                   state.countries[index].name ==
                                                       "All")

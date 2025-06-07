@@ -19,7 +19,9 @@ class UniversityLocalDataSourceImpl extends UniversityDataSource {
     // Original Universities Data Source :
     // https://github.com/Hipo/university-domains-list/blob/master/world_universities_and_domains.json
     try {
-      String jsonString = await rootBundle.loadString('assets/world_universities_and_domains.json');
+      String jsonString = await rootBundle.loadString(
+        'assets/world_universities_and_domains.json',
+      );
       List<dynamic> jsonData = jsonDecode(jsonString);
 
       final data =
@@ -47,6 +49,5 @@ class UniversityLocalDataSourceImpl extends UniversityDataSource {
     } catch (e) {
       return ApiResponse.error(e.toString(), statusCode: 500);
     }
-   
   }
 }

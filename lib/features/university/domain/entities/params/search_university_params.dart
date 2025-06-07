@@ -1,4 +1,3 @@
-
 import '../../../../../core/config/config.dart';
 
 class SearchUniversityParams {
@@ -12,10 +11,10 @@ class SearchUniversityParams {
     String? country,
     int? limit,
     int? offset,
-  })  : keyword = keyword ?? "",
-        country = country ?? "",
-        limit = limit ?? Config.limit,
-        offset = offset ?? Config.offset;
+  }) : keyword = keyword ?? "",
+       country = country ?? "",
+       limit = limit ?? Config.limit,
+       offset = offset ?? Config.offset;
 
   SearchUniversityParams copyWith({
     String? keyword,

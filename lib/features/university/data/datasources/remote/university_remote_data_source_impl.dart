@@ -21,7 +21,7 @@ class UniversityRemoteDataSourceImpl extends UniversityDataSource {
   ) async {
     try {
       String url = "${super.searchUniversityUrl}?offset=$offset&limit=$limit";
-      url += keyword!.isNotEmpty ? '&name=$keyword': '';
+      url += keyword!.isNotEmpty ? '&name=$keyword' : '';
       url += country!.isNotEmpty ? '&country=$country' : '';
       final response = await _dio.get(url);
       final data =
