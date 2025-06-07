@@ -1,0 +1,47 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Or macos-latest if you need iOS-specific builds/tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Setup Flutter SDK
+      # You can specify a version, e.g., '3.19.0' or 'stable'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # or 'beta', 'dev'
+          # flutter-version: '3.19.0' # Uncomment to pin to a specific Flutter version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Uncomment this step to verify the use of 'dart format' on each commit.
+      # Flutter projects primarily use 'dart format' for Dart code.
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      # Consider passing '--fatal-infos' for slightly stricter analysis.
+      # For Flutter, use 'flutter analyze'.
+      - name: Analyze project source
+        run: flutter analyze
+
+      # For Flutter projects, use 'flutter test'.
+      # This will run both unit and widget tests.
+      - name: Run tests
+        run: flutter test
+        # To run tests with code coverage, you might add:
+        # run: flutter test --coverage
+        # then upload coverage results using another action.
