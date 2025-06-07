@@ -53,3 +53,13 @@ For the testing I used test, bloc_test, and mockito
 - In-order to run the test you can run using `flutter test` to run all the test cases.
 - If you want to run individual test case, please add the file path behind the command `flutter test {full_path}`
 - All our test cases will be under `test/`
+
+## 🚧 Backlogs
+- 🔘 UI/UX Improvements
+- 🔘 To complete domain unit tests
+- 🔘 To complete bloc widget tests
+- 🔘 To integrate with Riverpod in presentation layer
+- 🔘 To integrate the offline mode with local db in Data
+- 🔘 Country list screen.
+- 🔘 University detail screen navigation.
+
