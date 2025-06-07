@@ -38,21 +38,23 @@ void main() {
         ),
       ], statusCode: 200);
       when(
-        universityRepository.search(params: argThat(
-          isA<SearchUniversityParams>() // Ensure it's the correct type            
-            ..having((p) => p.keyword, 'keyword', "") // Check keyword property
-            ..having((p) => p.offset, 'offset', 0)    // Check offset property
-            ..having((p) => p.limit, 'limit', 10),    // Check limit property
-          named: 'params', // If 'params' is a named argument
-        ),),
+        universityRepository.search(
+          params: argThat(
+            isA<SearchUniversityParams>() // Ensure it's the correct type
+              ..having(
+                (p) => p.keyword,
+                'keyword',
+                "",
+              ) // Check keyword property
+              ..having((p) => p.offset, 'offset', 0) // Check offset property
+              ..having((p) => p.limit, 'limit', 10), // Check limit property
+            named: 'params', // If 'params' is a named argument
+          ),
+        ),
       ).thenAnswer((_) async => universities);
 
       final result = await searchUniversitiesUsercase.call(
-        params: SearchUniversityParams(
-          keyword: "",
-          offset: 0,
-          limit: 10,
-        ),
+        params: SearchUniversityParams(keyword: "", offset: 0, limit: 10),
       );
       expect(result, universities);
     },
