@@ -4,3 +4,8 @@ enum Status {
   loaded,
   error,
 }
+
+enum DataSource {
+  server,
+  local
+}
