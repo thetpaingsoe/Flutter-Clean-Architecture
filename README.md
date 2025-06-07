@@ -56,10 +56,11 @@ For the testing I used test, bloc_test, and mockito
 
 ## 🚧 Backlogs
 - ✅ To integrate the offline mode with local db in Data
-- 🔘 UI/UX Improvements
+- 🔘 To complete data unit tests
 - 🔘 To complete domain unit tests
 - 🔘 To complete bloc widget tests
 - 🔘 To integrate with Riverpod in presentation layer
+- 🔘 UI/UX Improvements
 - 🔘 Country list screen.
 - 🔘 University detail screen navigation.
 
