@@ -207,7 +207,7 @@ class CountryLocalDataSourceImpl implements CountryDataSource {
     "Zambia",
     "Zimbabwe",
   ];
-  
+
   @override
   Future<List<Country>> getAll() {
     List<Country> countries = [];

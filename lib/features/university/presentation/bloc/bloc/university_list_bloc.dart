@@ -85,12 +85,11 @@ class UniversityListBloc
     UniversityListSearchEvent event,
     Emitter<UniversityListState> emit,
   ) async {
-
     final currentCountry = state.params.country;
 
-    // Since we added the All condition in country, 
+    // Since we added the All condition in country,
     // we have to make sure the correct country is selected.
-    // That means we don't always on event, 
+    // That means we don't always on event,
     // We will also check the data from state to keep the current country
     final newCountry = switch (event.country) {
       "All" => "",

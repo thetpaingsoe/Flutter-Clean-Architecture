@@ -10,10 +10,8 @@ class SearchUniversitiesUsercase {
   SearchUniversitiesUsercase({required this.universityRepository});
 
   Future<ApiResponse<List<University>>> call({
-    required SearchUniversityParams params
+    required SearchUniversityParams params,
   }) {
-    return universityRepository.search(
-      params: params
-    );
+    return universityRepository.search(params: params);
   }
 }

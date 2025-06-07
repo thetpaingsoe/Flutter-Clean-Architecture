@@ -17,30 +17,37 @@ class UniversityListState extends Equatable {
   });
 
   final Status status;
-  final List<University> universities;  
+  final List<University> universities;
   final List<Country> countries;
   final SearchUniversityParams params;
   final bool isActiveSearch;
   final String errorMessage;
   final int errorCode;
   final int selectedCountryIndex;
-  
+
   @override
-  List<Object?> get props => [status, universities, isActiveSearch, errorMessage, params.country, params.offset ];
+  List<Object?> get props => [
+    status,
+    universities,
+    isActiveSearch,
+    errorMessage,
+    params.country,
+    params.offset,
+  ];
 
   UniversityListState copyWith({
     status,
-    universities,    
+    universities,
     countries,
     params,
     isActiveSearch,
     errorCode,
     errorMessage,
     selectedCountryIndex,
-  }){
+  }) {
     return UniversityListState(
-      status : status ?? this.status,
-      universities: universities ?? this.universities,      
+      status: status ?? this.status,
+      universities: universities ?? this.universities,
       countries: countries ?? this.countries,
       params: params ?? this.params,
       isActiveSearch: isActiveSearch ?? this.isActiveSearch,

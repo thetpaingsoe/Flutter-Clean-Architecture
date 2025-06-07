@@ -7,16 +7,25 @@ class ErrorHandler {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
-        return NetworkException("Connection timeout", e.response?.statusCode ?? 0);
+        return NetworkException(
+          "Connection timeout",
+          e.response?.statusCode ?? 0,
+        );
 
       case DioExceptionType.badResponse:
         return _handleStatusCode(e);
 
       case DioExceptionType.cancel:
-        return CancelException("Request cancelled", e.response?.statusCode ?? 0);
+        return CancelException(
+          "Request cancelled",
+          e.response?.statusCode ?? 0,
+        );
 
       case DioExceptionType.unknown:
-        return UnknownException("Something went wrong", e.response?.statusCode ?? 0);
+        return UnknownException(
+          "Something went wrong",
+          e.response?.statusCode ?? 0,
+        );
 
       default:
         return UnknownException("Unknown error", e.response?.statusCode ?? 0);

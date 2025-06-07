@@ -1,11 +1,3 @@
-enum Status {
-  initial,
-  loading,
-  loaded,
-  error,
-}
+enum Status { initial, loading, loaded, error }
 
-enum DataSource {
-  remote,
-  local
-}
+enum DataSource { remote, local }

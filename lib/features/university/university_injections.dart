@@ -1,4 +1,3 @@
-
 import '../../core/config/config.dart';
 import '../../core/config/constants.dart';
 import '../../core/di/injections.dart';
@@ -10,15 +9,20 @@ import 'domain/repositories/university_repository.dart';
 import 'domain/usecases/search_universities_usecase.dart';
 
 initUniversityInjection() {
-
   // Init DataSouce Based on the DataScoure Config
-  if(Config.dataSource == DataSource.remote) {
-    di.registerSingleton<UniversityDataSource>(UniversityRemoteDataSourceImpl(dioClient: di.get() ));
-  }else {
+  if (Config.dataSource == DataSource.remote) {
+    di.registerSingleton<UniversityDataSource>(
+      UniversityRemoteDataSourceImpl(dioClient: di.get()),
+    );
+  } else {
     di.registerSingleton<UniversityDataSource>(UniversityLocalDataSourceImpl());
   }
-  
+
   // Init Repo and UseCases
-  di.registerSingleton<UniversityRepository>(UniversityRepositoryImpl(universityRemoteDataSource: di.get()));
-  di.registerSingleton<SearchUniversitiesUsercase>(SearchUniversitiesUsercase(universityRepository: di.get()));  
+  di.registerSingleton<UniversityRepository>(
+    UniversityRepositoryImpl(universityRemoteDataSource: di.get()),
+  );
+  di.registerSingleton<SearchUniversitiesUsercase>(
+    SearchUniversitiesUsercase(universityRepository: di.get()),
+  );
 }

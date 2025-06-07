@@ -16,10 +16,7 @@ void main() {
     repository = CountryRepositoryImpl(countryDataSource: mockDataSource);
   });
 
-  final testCountries = [
-    Country(name: 'USA'),
-    Country(name: 'Canada'),
-  ];
+  final testCountries = [Country(name: 'USA'), Country(name: 'Canada')];
 
   test('should return countries from data source', () async {
     when(mockDataSource.getAll()).thenAnswer((_) async => testCountries);
