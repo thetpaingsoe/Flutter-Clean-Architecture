@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/features/country/domain/usecases/get_all_country_usecase.dart';
 import 'package:flutter_clean_architecture/features/university/domain/entities/params/search_university_params.dart';
 import 'package:flutter_clean_architecture/features/university/domain/usecases/search_universities_usecase.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_event.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_state.dart';
-import '../../../../core/config/config.dart';
-import '../../../../core/config/constants.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_event.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_state.dart';
+import '../../../../../core/config/config.dart';
+import '../../../../../core/config/constants.dart';
 
 class UniversityListBloc
     extends Bloc<UniversityListEvent, UniversityListState> {

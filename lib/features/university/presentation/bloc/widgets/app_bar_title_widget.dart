@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_bloc.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_event.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_state.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_bloc.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_event.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_state.dart';
 
 class AppBarTitleWidget extends StatelessWidget {
   AppBarTitleWidget({super.key, required this.title});

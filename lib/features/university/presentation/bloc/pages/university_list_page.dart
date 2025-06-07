@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_clean_architecture/core/config/constants.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_bloc.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/bloc/university_list_event.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/widgets/app_bar_search_icon_widget.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/widgets/app_bar_title_widget.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_bloc.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/bloc/university_list_event.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/widgets/app_bar_search_icon_widget.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/widgets/app_bar_title_widget.dart';
 
-import '../../../../core/di/injections.dart';
+import '../../../../../core/di/injections.dart';
 import '../bloc/university_list_state.dart';
 
 /// --------------------------------------------------------------

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/features/university/presentation/pages/university_list_page.dart';
+import 'package:flutter_clean_architecture/features/university/presentation/bloc/pages/university_list_page.dart';
 
 import 'core/di/injections.dart';
 
