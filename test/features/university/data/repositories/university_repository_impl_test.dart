@@ -11,23 +11,39 @@ import 'university_repository_impl_test.mocks.dart';
 
 @GenerateMocks([UniversityDataSource])
 void main() {
-
   late UniversityRepositoryImpl repository;
   late MockUniversityDataSource mockDataSource;
-  
+
   setUp(() {
     mockDataSource = MockUniversityDataSource();
-    repository = UniversityRepositoryImpl(universityRemoteDataSource: mockDataSource);
+    repository = UniversityRepositoryImpl(
+      universityRemoteDataSource: mockDataSource,
+    );
   });
 
   test('should return universities from data source', () async {
     final testUniversities = [
-      University(name: 'University A', stateProvince: 'State A', country: 'Country A', countryCode: 'CA', webPages: ['www.universityA.edu'], domains: ['universityA.edu']),
-      University(name: 'University B', stateProvince: 'State B', country: 'Country B', countryCode: 'CB', webPages: ['www.universityB.edu'], domains: ['universityB.edu']),
+      University(
+        name: 'University A',
+        stateProvince: 'State A',
+        country: 'Country A',
+        countryCode: 'CA',
+        webPages: ['www.universityA.edu'],
+        domains: ['universityA.edu'],
+      ),
+      University(
+        name: 'University B',
+        stateProvince: 'State B',
+        country: 'Country B',
+        countryCode: 'CB',
+        webPages: ['www.universityB.edu'],
+        domains: ['universityB.edu'],
+      ),
     ];
-    
-    when(mockDataSource.search(any, any, any, any))
-        .thenAnswer((_) async => ApiResponse.success(testUniversities, statusCode: 200));
+
+    when(mockDataSource.search(any, any, any, any)).thenAnswer(
+      (_) async => ApiResponse.success(testUniversities, statusCode: 200),
+    );
 
     SearchUniversityParams params = SearchUniversityParams(
       keyword: 'University',
@@ -42,8 +58,9 @@ void main() {
   });
 
   test('should propagate errors from data source', () async {
-    when(mockDataSource.search(any, any, any, any))
-        .thenThrow(Exception('DB error'));
+    when(
+      mockDataSource.search(any, any, any, any),
+    ).thenThrow(Exception('DB error'));
 
     SearchUniversityParams params = SearchUniversityParams(
       keyword: 'University',
@@ -54,5 +71,4 @@ void main() {
 
     expect(() => repository.search(params: params), throwsException);
   });
-
 }
